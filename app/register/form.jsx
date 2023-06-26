@@ -48,8 +48,9 @@ export default function Form() {
         });
         const data = await res.json();
         if (data.success) {
-            // router.push("/login");
-            window.location.href = "/login";
+            // router.push("/login")
+            console.log("success")
+            // window.location.href = "/login";
         }
 
     };

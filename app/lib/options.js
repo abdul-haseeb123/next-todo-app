@@ -28,7 +28,7 @@ export const authOptions = {
                 const myuser = await User.findOne({email:credentials.email})
                 if (myuser) {
                     if (validPassword(credentials.password, myuser.hash, myuser.salt)) {
-                        const user = await authOptions.adapter.getUser(user.id)
+                        const user = await authOptions.adapter.getUser(myuser.id)
                         return user
                     }
                     return null
