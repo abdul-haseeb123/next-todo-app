@@ -10,8 +10,14 @@ export async function POST(request) {
     if (session) {
         return NextResponse.json({success:false,"message":"Invalid method for session"}, {status:405})
     }
-    const {name, email, password} = await request.body()
+    const {name, email, password} = await request.json()
     if (name && email && password) {
+
+        const finduser = await User.findOne({email:email})
+        if (finduser) {
+            return NextResponse.json({success:false, message:"User already exists"}, {status:409})
+        }
+
         const {hash, salt} = genPassword(password)
         const user = new User({
             name:name,

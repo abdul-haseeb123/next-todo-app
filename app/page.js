@@ -1,8 +1,10 @@
 'use client'
 import { useSession, signIn, signOut } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 export default function Home() {
   const {data:session} = useSession()
+  const router = useRouter()
   if (session) {
     return (
       <>
@@ -12,9 +14,6 @@ export default function Home() {
     )
   }
   return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
+    router.push('/login')
   )
 }
