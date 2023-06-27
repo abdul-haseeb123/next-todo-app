@@ -1,8 +1,11 @@
 import React from 'react'
+import { Spinner } from "@/components/materialTailwind"
 
 function Loading() {
   return (
-    <div>Loading ...</div>
+    <div className='flex justify-center'>
+      <Spinner color='blue' className='h-8 w-8' />
+    </div>
   )
 }
 
