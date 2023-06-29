@@ -53,10 +53,10 @@ export default function Form() {
         <>
             <Card className="px-4 py-7 sm:p-7 shadow-2xl bg-opacity-95">
                 <Typography variant="h4" color="blue-gray">
-                    Sign Up
+                    Log In
                 </Typography>
                 <Typography color="gray" className="mt-1 font-normal">
-                    Enter your details to register.
+                    Enter your details to log in.
                 </Typography>
                 <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
                     <div className="mb-4 flex flex-col gap-6">

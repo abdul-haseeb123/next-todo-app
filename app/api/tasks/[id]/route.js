@@ -33,7 +33,6 @@ export async function PUT(request, { params }) {
     const { content } = await request.json()
     console.log("id is", id)
     console.log("content is", content)
-    console.log("completed is", completed)
     try {
         const task = await Task.findById(id)
         task.content = content
