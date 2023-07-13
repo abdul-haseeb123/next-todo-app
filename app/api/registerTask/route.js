@@ -1,31 +1,43 @@
-import '@/app/lib/conn'
-import User from '@/app/models/userSchema'
-import Task from '@/app/models/taskSchema'
-import { NextResponse } from 'next/server'
-import { authOptions } from '@/app/lib/options'
-import { getServerSession } from 'next-auth'
+import "@/app/lib/conn";
+import User from "@/app/models/userSchema";
+import Task from "@/app/models/taskSchema";
+import { NextResponse } from "next/server";
+import { authOptions } from "@/app/lib/options";
+import { getServerSession } from "next-auth";
 
 export async function POST(request) {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-        return NextResponse.json({"message":"Not Authorized"}, {status: 401})
-    }
-    // console.log("session is present", session)
-    const user = await User.findOne({email: session.user.email})
-    // console.log("user is", user)
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ message: "Not Authorized" }, { status: 401 });
+  }
 
-    const { content } = await request.json()   
-    // console.log("content is", content)
+  const user = await User.findOne({ email: session.user.email });
 
+  const { content, dueDate } = await request.json();
+
+  if (!content) {
+    return NextResponse.json(
+      { message: "No content provided" },
+      { status: 400 }
+    );
+  }
+
+  if (content && !dueDate) {
     const task = new Task({
-        content: content,
-        user: user._id
-    })
-    // console.log("task is", task)
+      content: content,
+      user: user._id,
+    });
+    await task.save();
+    return NextResponse.json(task, { status: 201 });
+  }
 
-    await task.save()
-    // console.log("task saved")
-
-    return NextResponse.json(task, {status: 201})
-
+  if (content && dueDate) {
+    const task = new Task({
+      content: content,
+      dueDate: dueDate,
+      user: user._id,
+    });
+    await task.save();
+    return NextResponse.json(task, { status: 201 });
+  }
 }

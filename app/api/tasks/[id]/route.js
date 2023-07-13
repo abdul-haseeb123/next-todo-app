@@ -30,14 +30,27 @@ export async function PUT(request, { params }) {
         return NextResponse.json({ "message": "Not Authorized" }, { status: 401 })
     }
     const id = params.id
-    const { content } = await request.json()
-    console.log("id is", id)
-    console.log("content is", content)
+    const { content, important } = await request.json()
+    // console.log("id is", id)
+    // console.log("content is", content)
     try {
         const task = await Task.findById(id)
-        task.content = content
-        await task.save()
-        return NextResponse.json(task, { status: 200 })
+        if (content && important) {
+            task.content = content
+            task.important = (important === "true")
+            await task.save()
+            return NextResponse.json(task, { status: 200 })
+        }
+        else if (important) {
+            task.important = (important === "true")
+            await task.save()
+            return NextResponse.json(task, { status: 200 })
+        }
+        else if (content) {
+            task.content = content
+            await task.save()
+            return NextResponse.json(task, { status: 200 })
+        }
     }
     catch (error) {
         console.log("error is", error)

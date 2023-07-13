@@ -10,15 +10,15 @@ export async function GET(request) {
         return NextResponse.redirect('http://localhost:3000/login')
     }
     const { searchParams } = new URL(request.url)
-    console.log(searchParams)
+    // console.log(searchParams)
     const content = searchParams.get('content')
-    console.log(content)
+    // console.log(content)
     const tasks = await Task.find({
         $and:
             [{ content: { $regex: content } },
             { user: session.user.id }]
     })
-    console.log(tasks)
+    // console.log(tasks)
     if (tasks.length === 0) {
         return NextResponse.json({ message: 'No tasks found' }, { status: 404 })
     }
